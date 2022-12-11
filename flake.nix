@@ -29,26 +29,14 @@
       checks = {
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
+
           hooks = with pkgs; {
             alejandra.enable = true;
-            checkmake = {
-              enable = true;
-              entry = "${pkgs.checkmake}/bin/checkmake";
-              types = ["file"];
-              files = "Makefile";
-            };
-            commitizen = {
-              enable = true;
-              entry = "${pkgs.commitizen}/bin/cz check --commit-msg-file";
-              stages = ["commit-msg"];
-            };
-            editorconfig-checker = {
-              enable = true;
-              entry = "${pkgs.editorconfig-checker}/bin/editorconfig-checker";
-              types = ["file"];
-            };
+            commitizen.enable = true;
+            editorconfig-checker.enable = true;
             prettier.enable = true;
             statix.enable = true;
+            typos.enable = true;
           };
         };
       };
