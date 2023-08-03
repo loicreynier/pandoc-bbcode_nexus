@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "bierner.markdown-checkbox",
+        "editorconfig.editorconfig",
+        "valentjn.vscode-ltex",
+        "davidanson.vscode-markdownlint",
+        "johnnymorganz.stylua"
+    ]
+}
