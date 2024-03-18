@@ -18,6 +18,8 @@
   in
     flake-utils.lib.eachSystem supportedSystems (system: let
       pkgs = import nixpkgs {inherit system;};
+      writer = pkgs.callPackage ./nix/default.nix {};
+      runner = pkgs.callPackage ./nix/runner.nix {inherit writer;};
     in {
       checks = {
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
@@ -36,23 +38,30 @@
         };
       };
 
-      packages.default = pkgs.callPackage ./default.nix {};
+      packages = {
+        default = writer;
+        pandoc-bbcode_nexus-writer = writer;
+        pandoc-bbcode_nexus = runner;
+      };
 
       devShells.default = let
-        pandocUserData = pkgs.buildEnv {
-          name = "pandoc-user-data";
-          paths = [
-            self.packages.${system}.default
-          ];
-        };
-        pandocWrapped = pkgs.writeShellScriptBin "pandoc" ''
-          exec env XDG_DATA_HOME=${pandocUserData}/share \
-            ${pkgs.pandoc}/bin/pandoc "$@"
-        '';
+        inherit (self.packages.${system}) pandoc-bbcode_nexus; # pandoc-bbcode_nexus-writer;
+        # Writers are not collected by Pandoc in `XDG_DATA_HOME` (yet)
+        # pandocUserData = pkgs.buildEnv {
+        #   name = "pandoc-user-data";
+        #   paths = [
+        #     pandoc-bbcode_nexus-writer
+        #   ];
+        # };
+        # pandocWrapped = pkgs.writeShellScriptBin "pandoc" ''
+        #   exec env XDG_DATA_HOME=${pandocUserData}/share \
+        #     ${pkgs.pandoc}/bin/pandoc "$@"
+        # '';
       in
         pkgs.mkShell {
           nativeBuildInputs = [
-            pandocWrapped
+            # pandocWrapped
+            pandoc-bbcode_nexus
           ];
           inherit (self.checks.${system}.pre-commit-check) shellHook;
         };

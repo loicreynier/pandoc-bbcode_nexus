@@ -4,9 +4,9 @@
 }:
 stdenv.mkDerivation {
   pname = "pandoc-bbcode_nexus-writer";
-  version = "2022-09-01";
+  version = "unstable-2024-03-18";
 
-  src = ./.;
+  src = ../.;
 
   dontBuild = true;
 
