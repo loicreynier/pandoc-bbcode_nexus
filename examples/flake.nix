@@ -11,19 +11,11 @@
     ...
   } @ inputs: (flake-utils.lib.eachDefaultSystem (system: let
     pkgs = import nixpkgs {inherit system;};
-    pandocUserData = pkgs.buildEnv {
-      name = "pandoc-user-data";
-      paths = [
-        inputs.pandoc-bbcode_nexus.packages.${system}.default
-      ];
-    };
-    pandocWrapped = pkgs.writeShellScriptBin "pandoc" ''
-      exec env XDG_DATA_HOME=${pandocUserData}/share \
-        ${pkgs.pandoc}/bin/pandoc "$@"
-    '';
   in {
     devShells.default = pkgs.mkShell {
-      propagatedBuildInputs = [pandocWrapped];
+      propagatedBuildInputs = [
+        inputs.pandoc-bbcode_nexus.packages.${system}.pandoc-bbcode_nexus
+      ];
     };
   }));
 }

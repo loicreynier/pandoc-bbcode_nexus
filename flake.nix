@@ -59,9 +59,10 @@
         # '';
       in
         pkgs.mkShell {
-          nativeBuildInputs = [
-            # pandocWrapped
+          nativeBuildInputs = with pkgs; [
+            pandoc
             pandoc-bbcode_nexus
+            # pandocWrapped
           ];
           inherit (self.checks.${system}.pre-commit-check) shellHook;
         };
