@@ -16,7 +16,13 @@
   }: let
     supportedSystems = ["x86_64-linux"];
   in
-    flake-utils.lib.eachSystem supportedSystems (system: let
+    {
+      templates.default = {
+        path = ./template;
+        description = "Nix shell with Pandoc BBCode Nexus writer wrapper";
+      };
+    }
+    // flake-utils.lib.eachSystem supportedSystems (system: let
       pkgs = import nixpkgs {inherit system;};
       writer = pkgs.callPackage ./nix/default.nix {};
       runner = pkgs.callPackage ./nix/runner.nix {inherit writer;};

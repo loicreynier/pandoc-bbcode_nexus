@@ -3,7 +3,10 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    pandoc-bbcode_nexus.url = "github:loicreynier/pandoc-bbcode_nexus";
+    pandoc-bbcode_nexus = {
+      url = "github:loicreynier/pandoc-bbcode_nexus";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = {
     flake-utils,
