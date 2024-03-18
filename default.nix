@@ -2,7 +2,7 @@
   lib,
   stdenv,
 }:
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "pandoc-bbcode_nexus-writer";
   version = "2022-09-01";
 

@@ -6,7 +6,6 @@
     pandoc-bbcode_nexus.url = "github:loicreynier/pandoc-bbcode_nexus";
   };
   outputs = {
-    self,
     flake-utils,
     nixpkgs,
     ...
@@ -22,7 +21,7 @@
       exec env XDG_DATA_HOME=${pandocUserData}/share \
         ${pkgs.pandoc}/bin/pandoc "$@"
     '';
-  in rec {
+  in {
     devShells.default = pkgs.mkShell {
       propagatedBuildInputs = [pandocWrapped];
     };

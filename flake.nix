@@ -18,14 +18,15 @@
   in
     flake-utils.lib.eachSystem supportedSystems (system: let
       pkgs = import nixpkgs {inherit system;};
-    in rec {
+    in {
       checks = {
         pre-commit-check = pre-commit-hooks.lib.${system}.run {
           src = ./.;
 
-          hooks = with pkgs; {
+          hooks = {
             alejandra.enable = true;
             commitizen.enable = true;
+            deadnix.enable = true;
             editorconfig-checker.enable = true;
             prettier.enable = true;
             statix.enable = true;
@@ -50,7 +51,7 @@
         '';
       in
         pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [
+          nativeBuildInputs = [
             pandocWrapped
           ];
           inherit (self.checks.${system}.pre-commit-check) shellHook;
