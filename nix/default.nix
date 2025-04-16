@@ -1,7 +1,4 @@
-{
-  lib,
-  stdenv,
-}:
+{ lib, stdenv }:
 stdenv.mkDerivation {
   pname = "pandoc-bbcode_nexus-writer";
   version = "unstable-2024-03-18";
@@ -18,6 +15,6 @@ stdenv.mkDerivation {
     homepage = "https://github.com/loicreynier/pandoc-bbcode_nexus";
     description = "Pandoc Lua writer for Nexus Mods BBCode";
     license = licenses.unlicense;
-    maintainers = with maintainers; [loicreynier];
+    maintainers = with maintainers; [ loicreynier ];
   };
 }

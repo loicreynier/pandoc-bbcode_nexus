@@ -8,17 +8,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = {
-    flake-utils,
-    nixpkgs,
-    ...
-  } @ inputs: (flake-utils.lib.eachDefaultSystem (system: let
-    pkgs = import nixpkgs {inherit system;};
-  in {
-    devShells.default = pkgs.mkShell {
-      propagatedBuildInputs = [
-        inputs.pandoc-bbcode_nexus.packages.${system}.pandoc-bbcode_nexus
-      ];
-    };
-  }));
+  outputs =
+    { flake-utils, nixpkgs, ... }@inputs:
+    (flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          propagatedBuildInputs = [ inputs.pandoc-bbcode_nexus.packages.${system}.pandoc-bbcode_nexus ];
+        };
+      }
+    ));
 }
